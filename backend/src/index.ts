@@ -43,14 +43,9 @@ app.use('/api/listening', listeningRoutes);
 app.use('/api/writing', writingRoutes);
 app.use('/api/ai-flashcards', aiFlashcardRoutes);
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'Hán Ngữ Hub API đang hoạt động',
-    timestamp: new Date().toISOString()
-  });
-});
+// Health check với database status
+import healthRoutes from './routes/health';
+app.use('/health', healthRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
