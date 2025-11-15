@@ -122,6 +122,14 @@ Xem hướng dẫn chi tiết trong [DEPLOY.md](./DEPLOY.md) để deploy lên:
 - [Deploy Guide](./DEPLOY.md)
 - [OpenSpec Workflow](./openspec/AGENTS.md)
 
+## 🚀 Production
+
+Ứng dụng đã được deploy và có thể truy cập tại:
+- Frontend: [Your Frontend URL]
+- Backend API: [Your Backend URL]
+
+Xem [DEPLOY.md](./DEPLOY.md) để biết cách deploy lên Render hoặc các platform khác.
+
 ## 📝 License
 
 MIT
