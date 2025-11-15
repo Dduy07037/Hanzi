@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Sparkles, Loader2, CheckCircle, XCircle, Plus, X } from 'lucide-react';
+import { Sparkles, Loader2, CheckCircle, Plus, X } from 'lucide-react';
 import { aiFlashcardService, GenerateFlashcardsResponse } from '../services/aiFlashcardService';
-import { ChineseWord } from '../types';
 import toast from 'react-hot-toast';
 
 interface AIFlashcardGeneratorProps {

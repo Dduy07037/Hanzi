@@ -36,7 +36,7 @@ const Quiz: React.FC = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [result, setResult] = useState<QuizResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {

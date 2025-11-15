@@ -79,10 +79,10 @@ const Writing: React.FC = () => {
     }
   };
 
-  const resetWriting = () => {
-    setWords([]);
-    setCurrentWordIndex(0);
-  };
+  // const resetWriting = () => {
+  //   setWords([]);
+  //   setCurrentWordIndex(0);
+  // };
 
   if (words.length === 0) {
     return (

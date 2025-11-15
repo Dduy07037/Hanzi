@@ -15,7 +15,7 @@ const Listening: React.FC = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [result, setResult] = useState<ListeningResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(0.8);

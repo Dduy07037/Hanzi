@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, CheckCircle, XCircle, AlertCircle, ThumbsUp } from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, ThumbsUp } from 'lucide-react';
 import { flashcardService } from '../services/flashcardService';
 import { FlashcardReview } from '../types';
 import toast from 'react-hot-toast';

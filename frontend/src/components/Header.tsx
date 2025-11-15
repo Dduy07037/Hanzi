@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Sun, Moon, User, LogOut, BookOpen } from 'lucide-react';
+import { Sun, Moon, LogOut, BookOpen } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDarkMode } from '../hooks/useDarkMode';
 

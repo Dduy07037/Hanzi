@@ -13,8 +13,7 @@ interface WordResultProps {
 const WordResult: React.FC<WordResultProps> = ({ 
   word, 
   onClick, 
-  showAddToFlashcard = false,
-  compact = false 
+  showAddToFlashcard = false
 }) => {
   const speak = (text: string) => {
     if ('speechSynthesis' in window) {

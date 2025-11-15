@@ -85,8 +85,8 @@ const HanziWriter: React.FC<HanziWriterProps> = ({
 
   const handleReset = () => {
     if (writerRef.current) {
-      if (quiz) {
-        writerRef.current.quiz();
+      if (quiz && typeof (writerRef.current as any).quiz === 'function') {
+        (writerRef.current as any).quiz();
       } else {
         writerRef.current.hideCharacter();
       }

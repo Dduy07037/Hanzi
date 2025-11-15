@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, BookOpen, Trash2, Eye, Sparkles } from 'lucide-react';
+import { Plus, BookOpen, Eye, Sparkles } from 'lucide-react';
 import { flashcardService } from '../services/flashcardService';
 import { FlashcardDeck } from '../types';
 import toast from 'react-hot-toast';
