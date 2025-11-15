@@ -41,7 +41,11 @@
 
 6. Click **Create Web Service**
 
-7. **QUAN TRỌNG**: Sau khi deploy xong, vào **Shell** tab của service và chạy:
+7. **Database sẽ tự động được setup** khi server start lần đầu (nếu chưa có schema)
+   - Server sẽ tự động chạy `prisma db push` và `db:seed` khi start
+   - Nếu muốn tắt tính năng này, thêm env var: `AUTO_SETUP_DB=false`
+   
+   **Lưu ý**: Nếu bạn có Shell access, có thể chạy thủ công:
    ```bash
    npx prisma generate
    npx prisma db push

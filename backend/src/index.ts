@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import prisma from './lib/prisma';
+import setupDatabase from './scripts/setup-db';
 
 import authRoutes from './routes/auth';
 import dictionaryRoutes from './routes/dictionary';
@@ -12,6 +13,15 @@ import writingRoutes from './routes/writing';
 import aiFlashcardRoutes from './routes/aiFlashcards';
 
 dotenv.config();
+
+// Setup database tự động (chỉ chạy một lần khi start)
+let dbSetupDone = false;
+async function initializeDatabase() {
+  if (!dbSetupDone && process.env.AUTO_SETUP_DB !== 'false') {
+    dbSetupDone = true;
+    await setupDatabase();
+  }
+}
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3001', 10);
@@ -59,11 +69,21 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-  const serverUrl = process.env.SERVER_URL || `http://localhost:${PORT}`;
-  console.log(`🚀 Server đang chạy tại ${serverUrl}`);
-  console.log(`📚 Hán Ngữ Hub API đã sẵn sàng!`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+async function startServer() {
+  // Setup database trước khi start server
+  await initializeDatabase();
+  
+  app.listen(PORT, '0.0.0.0', () => {
+    const serverUrl = process.env.SERVER_URL || `http://localhost:${PORT}`;
+    console.log(`🚀 Server đang chạy tại ${serverUrl}`);
+    console.log(`📚 Hán Ngữ Hub API đã sẵn sàng!`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.error('❌ Lỗi khi khởi động server:', error);
+  process.exit(1);
 });
 
 // Graceful shutdown
