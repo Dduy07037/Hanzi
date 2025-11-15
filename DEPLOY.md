@@ -19,52 +19,51 @@
 
 1. Vào Render Dashboard
 2. Chọn **New +** → **Web Service**
-3. Connect repository GitHub của bạn
+3. Connect repository GitHub của bạn: `Dduy07037/Hanzi`
 4. Cấu hình:
    - **Name**: `han-ngu-hub-backend`
+   - **Root Directory**: `backend` ⚠️ **QUAN TRỌNG**
    - **Environment**: `Node`
-   - **Build Command**: `cd backend && npm install && npm run build`
-   - **Start Command**: `cd backend && npm start`
-   - **Root Directory**: (để trống hoặc `backend`)
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+   - **Node Version**: `18` hoặc `20` (không dùng 22)
 
 5. Thêm Environment Variables:
    ```
    NODE_ENV=production
    DATABASE_URL=<Internal Database URL từ bước 1>
-   JWT_SECRET=<Generate một secret key mạnh>
+   JWT_SECRET=<Generate một secret key mạnh - dùng: openssl rand -base64 32>
    PORT=10000
-   FRONTEND_URL=https://your-frontend-url.onrender.com
+   FRONTEND_URL=https://han-ngu-hub-frontend.onrender.com
    GEMINI_API_KEY=<Nếu dùng AI features>
    GEMINI_MODEL=gemini-2.5-flash
    ```
 
 6. Click **Create Web Service**
 
-7. Sau khi deploy xong, chạy migrations:
-   - Vào **Shell** tab của service
-   - Chạy:
-     ```bash
-     cd backend
-     npx prisma generate
-     npx prisma db push
-     npm run db:seed
-     ```
+7. **QUAN TRỌNG**: Sau khi deploy xong, vào **Shell** tab của service và chạy:
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   npm run db:seed
+   ```
 
 ## Bước 3: Deploy Frontend
 
 1. Vào Render Dashboard
 2. Chọn **New +** → **Static Site**
-3. Connect repository GitHub của bạn
+3. Connect repository GitHub của bạn: `Dduy07037/Hanzi`
 4. Cấu hình:
    - **Name**: `han-ngu-hub-frontend`
-   - **Build Command**: `cd frontend && npm install && npm run build`
-   - **Publish Directory**: `frontend/dist`
+   - **Root Directory**: `frontend` ⚠️ **QUAN TRỌNG**
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `dist`
 
 5. Thêm Environment Variable:
    ```
    VITE_API_BASE_URL=https://han-ngu-hub-backend.onrender.com/api
    ```
-   (Thay bằng URL backend thực tế của bạn)
+   (Thay `han-ngu-hub-backend` bằng tên backend service thực tế của bạn)
 
 6. Click **Create Static Site**
 
@@ -76,7 +75,8 @@
    ```
    FRONTEND_URL=https://han-ngu-hub-frontend.onrender.com
    ```
-4. Restart service
+   (Thay bằng URL frontend thực tế của bạn)
+4. Click **Save Changes** - Service sẽ tự động restart
 
 ## Bước 5: Kiểm tra
 
@@ -84,12 +84,28 @@
 2. Thử đăng ký tài khoản mới
 3. Kiểm tra các tính năng hoạt động
 
-## Lưu ý
+## Lưu ý quan trọng
 
-- **Free tier** có thể bị sleep sau 15 phút không hoạt động
-- Database free tier có giới hạn 90 ngày
-- Để production thực sự, nên upgrade lên paid plan
-- Backup database thường xuyên
+### Root Directory
+- **Backend**: Phải set `backend` trong Root Directory
+- **Frontend**: Phải set `frontend` trong Root Directory
+
+### Build Commands
+- **Backend**: `npm install && npm run build` (không cần `cd backend` vì đã set Root Directory)
+- **Frontend**: `npm install && npm run build` (không cần `cd frontend` vì đã set Root Directory)
+
+### Node Version
+- Không dùng Node.js 22 (có thể có vấn đề)
+- Dùng Node.js 18 hoặc 20
+
+### Database Setup
+- **BẮT BUỘC** phải chạy migrations sau khi deploy backend lần đầu
+- Vào Shell tab và chạy:
+  ```bash
+  npx prisma generate
+  npx prisma db push
+  npm run db:seed
+  ```
 
 ## Troubleshooting
 
@@ -97,6 +113,7 @@
 - Kiểm tra `DATABASE_URL` đúng format
 - Đảm bảo database và backend cùng region
 - Kiểm tra Internal Database URL (không phải External)
+- Đảm bảo đã chạy `prisma db push` trong Shell
 
 ### CORS errors
 - Kiểm tra `FRONTEND_URL` trong backend env vars
@@ -108,3 +125,19 @@
 - Đảm bảo URL có `/api` ở cuối
 - Rebuild frontend sau khi thay đổi env vars
 
+### Build fails
+- Kiểm tra Root Directory đã set đúng chưa
+- Kiểm tra Node version (dùng 18 hoặc 20)
+- Xem build logs để biết lỗi cụ thể
+
+### Module not found errors
+- Đảm bảo Root Directory đã set đúng
+- Kiểm tra build command có chạy thành công không
+- Đảm bảo `npm run build` tạo ra thư mục `dist`
+
+## Free Tier Limitations
+
+- **Free tier** có thể bị sleep sau 15 phút không hoạt động
+- Database free tier có giới hạn 90 ngày
+- Để production thực sự, nên upgrade lên paid plan
+- Backup database thường xuyên
