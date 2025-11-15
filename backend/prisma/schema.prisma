@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  flashcardDecks   FlashcardDeck[]
+  flashcardReviews FlashcardReview[]
+
+  @@map("users")
+}
+
+model ChineseWord {
+  id          String   @id @default(cuid())
+  simplified  String
+  traditional String?
+  pinyin      String
+  pinyinTone  String?
+  english     String
+  vietnamese  String?
+  examples    Json? // Array of {chinese: string, pinyin: string, vietnamese: string, english: string}
+  hskLevel    Int?
+  frequency   Int?
+  createdAt   DateTime @default(now())
+
+  flashcards Flashcard[]
+
+  @@map("chinese_words")
+}
+
+model FlashcardDeck {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  flashcards Flashcard[]
+
+  @@map("flashcard_decks")
+}
+
+model Flashcard {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deckId String
+  deck   FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  wordId String
+  word   ChineseWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  reviews FlashcardReview[]
+
+  @@map("flashcards")
+}
+
+model FlashcardReview {
+  id         String   @id @default(cuid())
+  interval   Int      @default(1) // in days
+  easeFactor Float    @default(2.5)
+  dueDate    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  flashcardId String
+  flashcard   Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+
+  @@map("flashcard_reviews")
+}
