@@ -28,8 +28,26 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 // Middleware
+// CORS: Cho phép nhiều origins (frontend có thể có URL khác nhau)
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  : ['http://localhost:5173'];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Cho phép requests không có origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    // Kiểm tra origin có trong danh sách allowed không
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      // Log để debug
+      console.log(`⚠️  CORS blocked origin: ${origin}`);
+      console.log(`📋 Allowed origins: ${allowedOrigins.join(', ')}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
