@@ -33,22 +33,30 @@ const allowedOrigins = process.env.FRONTEND_URL
   ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
   : ['http://localhost:5173'];
 
+console.log('🌐 CORS Allowed Origins:', allowedOrigins);
+
 app.use(cors({
   origin: (origin, callback) => {
     // Cho phép requests không có origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
+    if (!origin) {
+      console.log('⚠️  Request without origin, allowing');
+      return callback(null, true);
+    }
     
     // Kiểm tra origin có trong danh sách allowed không
     if (allowedOrigins.includes(origin)) {
+      console.log(`✅ CORS allowed: ${origin}`);
       callback(null, true);
     } else {
       // Log để debug
-      console.log(`⚠️  CORS blocked origin: ${origin}`);
+      console.log(`❌ CORS blocked origin: ${origin}`);
       console.log(`📋 Allowed origins: ${allowedOrigins.join(', ')}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
