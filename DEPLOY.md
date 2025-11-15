@@ -77,9 +77,14 @@
 2. Vào **Environment** tab
 3. Cập nhật `FRONTEND_URL` thành URL frontend thực tế:
    ```
-   FRONTEND_URL=https://han-ngu-hub-frontend.onrender.com
+   FRONTEND_URL=https://hanzi-q503.onrender.com
    ```
    (Thay bằng URL frontend thực tế của bạn)
+   
+   **Lưu ý**: Nếu có nhiều frontend URLs, dùng dấu phẩy để phân cách:
+   ```
+   FRONTEND_URL=https://hanzi-q503.onrender.com,https://han-ngu-hub-frontend.onrender.com
+   ```
 4. Click **Save Changes** - Service sẽ tự động restart
 
 ## Bước 5: Kiểm tra
