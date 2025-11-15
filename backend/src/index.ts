@@ -11,6 +11,7 @@ import statsRoutes from './routes/stats';
 import listeningRoutes from './routes/listening';
 import writingRoutes from './routes/writing';
 import aiFlashcardRoutes from './routes/aiFlashcards';
+import healthRoutes from './routes/health';
 
 dotenv.config();
 
@@ -44,7 +45,6 @@ app.use('/api/writing', writingRoutes);
 app.use('/api/ai-flashcards', aiFlashcardRoutes);
 
 // Health check với database status
-import healthRoutes from './routes/health';
 app.use('/health', healthRoutes);
 
 // Error handling middleware
